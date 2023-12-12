@@ -2,6 +2,7 @@ const salaryModel = require("../Database/model/salarySchema");
 const asyncErrorHandler = require("../utils/asyncErrorHandler");
 const CustomError = require("../utils/customError");
 
+//Create Salary
 exports.addSalary = asyncErrorHandler(async (req, resp, next) => {
   const salaryDetail = req.body;
   const addSalary = await salaryModel.create(salaryDetail);
@@ -13,6 +14,7 @@ exports.addSalary = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+//Get All Salary
 exports.getAllSalary = asyncErrorHandler(async (req, resp, next) => {
   const allPaySalray = await salaryModel.find();
   if (allPaySalray.length <= 0) {
@@ -26,6 +28,7 @@ exports.getAllSalary = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+//Get Salary By Id
 exports.getSalaryById = asyncErrorHandler(async (req, resp, next) => {
   const paySalary = await salaryModel.find({ empId: req.params.empId });
 
@@ -43,6 +46,7 @@ exports.getSalaryById = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+//Update Sslary By Id 
 exports.updateSalary = asyncErrorHandler(async (req, resp, next) => {
   let paySalary = await salaryModel.findById(req.params.id);
   if (!paySalary) {
@@ -63,6 +67,7 @@ exports.updateSalary = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+//Delete Salary By Id
 exports.deleteSalary = asyncErrorHandler(async (req, resp, next) => {
   const paySalary = await salaryModel.findById(req.params.id);
   if (!paySalary) {

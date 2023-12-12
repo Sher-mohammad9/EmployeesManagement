@@ -4,6 +4,7 @@ const config = require("../config.js");
 const CustomError = require("../utils/customError");
 const userModel = require("../Database/model/userModel.js");
 
+//User Verification
 exports.authVerify = asyncErrorHandler(async (req, resp, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   if (token) {
@@ -21,6 +22,7 @@ exports.authVerify = asyncErrorHandler(async (req, resp, next) => {
   }
 });
 
+//Subscriber User Verification
 exports.subAuthVerify  = asyncErrorHandler(async(req, resp, next)=>{
     const token = req.headers["authorization"]?.split(" ")[1];
     if(token){

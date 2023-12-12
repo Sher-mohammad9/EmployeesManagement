@@ -1,6 +1,7 @@
 const employeeRightsModel = require("../Database/model/employeeRightsSchema");
 const CustomError = require("../utils/customError");
 
+// CRUD Operation 
 module.exports = {
   createRights: async (req, resp) => {
     const rights = await employeeRightsModel.create(req.body);

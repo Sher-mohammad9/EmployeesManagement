@@ -5,6 +5,7 @@ const asyncErrorHandler = require("../utils/asyncErrorHandler.js");
 const ApiFeature = require("../utils/ApiFeature.js");
 const employeeRightsModel = require("../Database/model/employeeRightsSchema.js");
 
+//Create employee
 exports.createEmployee = asyncErrorHandler(async (req, resp, next) => {
   const newEmployee = req.body;
   const addNewEmployee = await employeeModel.create(newEmployee);
@@ -16,6 +17,7 @@ exports.createEmployee = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+//Get All Employees
 exports.getAllEmployee = asyncErrorHandler(async (req, resp, next) => {
   const data = new ApiFeature(employeeModel.find(), req.query);
   const employeeData = await data.query;
@@ -30,6 +32,7 @@ exports.getAllEmployee = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+// Get Employee By Id
 exports.getEmployeeById = asyncErrorHandler(async (req, resp, next) => {
   const employee = await employeeModel.findById(req.params.id);
   if (!employee) {
@@ -43,6 +46,7 @@ exports.getEmployeeById = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+//Update Employee By Id
 exports.updateEmployee = asyncErrorHandler(async (req, resp, next) => {
   const { id } = req.params;
   let existsEmployee = await employeeModel.findById(id);
@@ -63,6 +67,7 @@ exports.updateEmployee = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+//Delete Employee By Id
 exports.deleteEmployee = asyncErrorHandler(async (req, resp, next) => {
   const { id } = req.params;
   const existsEmployee = await employeeModel.findById(id);
@@ -180,6 +185,7 @@ exports.searchEmployees = asyncErrorHandler(async(req, resp, next)=>{
   });
 })
 
+//Get Employee By Highest Salary Employees
 exports.highest_Salary_Employees = asyncErrorHandler(async(req, resp, next)=>{
   const data = await employeeModel.aggregate([
     {$sort : {salary : -1}},
@@ -197,6 +203,7 @@ exports.highest_Salary_Employees = asyncErrorHandler(async(req, resp, next)=>{
   })
 });
 
+//Get Salary Categary Employees Using Bucket
 exports.salary_Categary_Employees = asyncErrorHandler(async(req, resp, next)=>{
   console.log(req.file);
   const data = await employeeModel.aggregate([

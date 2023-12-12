@@ -1,6 +1,7 @@
 const config = require("../config");
 const CustomError = require("../utils/customError");
 
+//Project Development Error Handler
 const developmentErrors = (error, resp) => {
   console.log("Dev");
   resp.status(error.statusCode).json({
@@ -10,6 +11,7 @@ const developmentErrors = (error, resp) => {
     error,
   });
 };
+
 
 const castErrorHamdler = (error) => {
   const msg = `Invalid value for ${error.path}: ${error.value}`;
@@ -32,6 +34,7 @@ const ValidationErrorhandler = (error) => {
   return new CustomError(errorMassage, 400);
 };
 
+//Project Production Error Handler
 const productionError = (error, resp) => {
   if (error.isOperational) {
     console.log("production");
@@ -47,6 +50,7 @@ const productionError = (error, resp) => {
   }
 };
 
+//Global Error Handler
 module.exports = function (error, req, resp, next) {
   error.statusCode = error.statusCode || 500;
   error.status = error.status || "error";

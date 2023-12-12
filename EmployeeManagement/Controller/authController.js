@@ -6,6 +6,7 @@ const multer = require("multer");
 const CustomError = require("../utils/customError.js");
 const config = require("../config.js");
 
+//Create User
 exports.signUp = asyncErrorHandler(async (req, resp, next) => {
   const userData = req.body;
   if (!userData.confirmPassword) {
@@ -33,6 +34,7 @@ exports.signUp = asyncErrorHandler(async (req, resp, next) => {
   next()
 });
 
+//Get User By Email
 exports.getUserByEmail = asyncErrorHandler(async(req, resp, next)=>{
   const EXISTS_USER = await userModel.findOne({email : req.body.email});
   if(!EXISTS_USER){
@@ -46,6 +48,7 @@ exports.getUserByEmail = asyncErrorHandler(async(req, resp, next)=>{
   })
 })
 
+//Log In User
 exports.logIn = asyncErrorHandler(async (req, resp, next) => {
   const userData = req.body;
   let token = "";
@@ -74,6 +77,7 @@ exports.logIn = asyncErrorHandler(async (req, resp, next) => {
   next()
 });
 
+//Update User By Id
 exports.updateProfile = asyncErrorHandler(async (req, resp, next) => {
   const { id } = req.params;
   let existsUser = await userModel.findById(id);
@@ -100,6 +104,7 @@ exports.updateProfile = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+//LogOut User
 exports.logOut = asyncErrorHandler(async (req, resp, next) => {
   const existsUser = await userModel.findOne({ email: req.body.email });
   if (existsUser) {
@@ -127,6 +132,8 @@ exports.logOut = asyncErrorHandler(async (req, resp, next) => {
   });
 });
 
+
+//Set User Profile Photo
 exports.set_Profile_Photo = asyncErrorHandler(async(req, resp, next)=>{
    const filePath = req.file.path;
    const userData = req.userData;
@@ -147,6 +154,7 @@ exports.set_Profile_Photo = asyncErrorHandler(async(req, resp, next)=>{
 
 })
 
+//Buy the Subscription For Premium Data In application
 exports.buySubscribe = asyncErrorHandler(async(req, resp, next)=>{
   const {payMent, email} = req.body;
   const existsUser = await userModel.findOne({email : email});
