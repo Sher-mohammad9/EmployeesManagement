@@ -2,6 +2,7 @@ const nodEmailer = require("nodemailer");
 const CustomError = require("../utils/customError");
 const config = require("../config");
 
+//Email Send Using nodemailer
 exports.sendEmail = async (req, resp, next)=>{
     const {email} = req.body;
     const isFor = req.url.slice(1).charAt(0).toUpperCase().concat(req.url.slice(2));

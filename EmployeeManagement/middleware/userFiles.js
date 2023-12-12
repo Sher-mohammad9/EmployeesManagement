@@ -1,6 +1,7 @@
 const multer = require("multer");
 const userModel = require("../Database/model/userModel");
 
+//Stor User Files
 const storage = multer.diskStorage({
     destination: function(req, file, cb){
         return cb(null, "UserFiles");
