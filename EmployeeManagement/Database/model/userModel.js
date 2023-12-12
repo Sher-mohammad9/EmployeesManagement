@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
 
     password : {
         type : String,
-        required : [true, "Set a Pasword"]
+        required : [true, "Set a Password"]
     },
 
     confirmPassword : {
@@ -42,15 +42,22 @@ const userSchema = new mongoose.Schema({
     activity : {
         type : Boolean,
         default : true
-    }
+    },
+
+    userType : {
+        type : String,
+        default : "user"
+    },
+
+    profileImage : String,
+    coverImage : String
 });
 
 
 userSchema.post("save", function(doc, next){
     const targetPath = path.join(__dirname, "../../Log/log.txt")
-    const content = `User SginUp  UserNmae ${doc.name}`;
-    let logTxt = fs.writeFileSync(targetPath, content, {flag : "a"})
-    console.log(logTxt);
+    const content = `User SginUp  UserNmae ${doc.name}\n`;
+    fs.writeFileSync(targetPath, content, {flag : "a"});
     next()
 })
 

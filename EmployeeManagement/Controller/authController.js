@@ -2,6 +2,7 @@ const userModel = require("../Database/model/userModel.js");
 const asyncErrorHandler = require("../utils/asyncErrorHandler.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const multer = require("multer");
 const CustomError = require("../utils/customError.js");
 const config = require("../config.js");
 
@@ -29,7 +30,21 @@ exports.signUp = asyncErrorHandler(async (req, resp, next) => {
     usre: newUser,
     token,
   });
+  next()
 });
+
+exports.getUserByEmail = asyncErrorHandler(async(req, resp, next)=>{
+  const EXISTS_USER = await userModel.findOne({email : req.body.email});
+  if(!EXISTS_USER){
+    const error = new CustomError("User Not Found", 404);
+    return next(error);
+  }
+
+  resp.status(200).json({
+    status : "Success",
+    User : EXISTS_USER
+  })
+})
 
 exports.logIn = asyncErrorHandler(async (req, resp, next) => {
   const userData = req.body;
@@ -56,6 +71,7 @@ exports.logIn = asyncErrorHandler(async (req, resp, next) => {
     message: "Successfully Login",
     token,
   });
+  next()
 });
 
 exports.updateProfile = asyncErrorHandler(async (req, resp, next) => {
@@ -68,8 +84,7 @@ exports.updateProfile = asyncErrorHandler(async (req, resp, next) => {
       req.body.password = updatePassword;
       token = jwt.sign(req.body, config.SECRET_KEY, { expiresIn: "24h" });
     }
-    await userModel.findByIdAndUpdate(id, { $set: req.body });
-    existsUser = await userModel.findById(id);
+    existsUser = await userModel.findByIdAndUpdate(id, { $set: req.body }, {new : true});
   } else {
     const error = new CustomError("User not found", 404);
     return next(error);
@@ -80,7 +95,7 @@ exports.updateProfile = asyncErrorHandler(async (req, resp, next) => {
   resp.status(200).json({
     status: "Success",
     message: "Update profile",
-    existsUser,
+    updateProfile : existsUser,
     token,
   });
 });
@@ -111,4 +126,41 @@ exports.logOut = asyncErrorHandler(async (req, resp, next) => {
     message: "Logout successfully",
   });
 });
+
+exports.set_Profile_Photo = asyncErrorHandler(async(req, resp, next)=>{
+   const filePath = req.file.path;
+   const userData = req.userData;
+   const existsUser = await userModel.findOne({email : userData.email});
+
+   if(!existsUser){
+    const error = new CustomError("User Not Found", 404);
+    next(error);
+   }
+  
+ await userModel.findOneAndUpdate({email : userData.email}, {$set : {profileImage : filePath}})
+
+   resp.status(200).json({
+    status : "Success",
+    message : "Update Profile Photo",
+    profileImagePath : filePath
+   });
+
+})
+
+exports.buySubscribe = asyncErrorHandler(async(req, resp, next)=>{
+  const {payMent, email} = req.body;
+  const existsUser = await userModel.findOne({email : email});
+
+  if(!existsUser){
+    const error = new CustomError("User Not Found", 404);
+    return next(error);
+  }else if(payMent > 0){
+    await userModel.findOneAndUpdate({email : email}, {$set : {userType : "Subscriber"}})
+  }
+
+  resp.status(200).json({
+    status : "Success",
+    message : "Buy a subscribe",
+  })
+})
 
