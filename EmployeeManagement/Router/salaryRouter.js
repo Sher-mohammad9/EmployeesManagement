@@ -16,6 +16,7 @@ Router.route("/get/:empId").get(authVerify, salaryController.getSalaryById);
 //Update Sslary By Id
 Router.route("/update/:id").put(authVerify, salaryController.updateSalary);
 
+
 //Delete Salary By Id
 Router.route("/delete/:id").delete(authVerify, salaryController.deleteSalary);
 
