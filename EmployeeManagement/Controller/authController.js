@@ -159,11 +159,16 @@ exports.buySubscribe = asyncErrorHandler(async(req, resp, next)=>{
   const {payMent, email} = req.body;
   const existsUser = await userModel.findOne({email : email});
 
-  if(!existsUser){
+  if(existsUser){
+    if(payMent > 0){
+      await userModel.findOneAndUpdate({email : email}, {$set : {userType : "Subscriber"}})
+    }else{
+      const error = new CustomError("Please pay payment", 400);
+       return next(error);
+    }
+  }else{
     const error = new CustomError("User Not Found", 404);
     return next(error);
-  }else if(payMent > 0){
-    await userModel.findOneAndUpdate({email : email}, {$set : {userType : "Subscriber"}})
   }
 
   resp.status(200).json({
