@@ -24,10 +24,11 @@ exports.sendEmail = async (req, resp, next)=>{
         subject : `EmployeeManagement Application ${isFor}`,
         html:`<h1>Hello,
         You are successfully ${isFor}</h1>`
-    }, (err)=>{
+    }, (err, info)=>{
         if(err){
            const error = new CustomError(err.message, 500);
-           next(error)
+           return next(error)
         }
+        console.log("hello", info.messageId);
     })
 }

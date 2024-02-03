@@ -1,42 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
     <title>Employee Management</title>
 
-    <style>
-body{
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+ <style>
+div > form > button {
+    box-shadow: 0 4px 8px 0 rgb(16 15 15 / 93%), 0 6px 20px 0 rgb(21 22 22 / 98%);
+    padding: 14px 235px;
+    font-size: 38px;
+    cursor: pointer;
 }
 
-h2{
-    color: grey;
-}
+</style>
 
-div.card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    text-align: center;
-    border-radius: 5px;
-    margin: 50px 200px;
-    padding: 20px 30px;
-}        
-
-input{
-    color: grey;
-}       
-    </style>
 </head>
+
 <body>
     <div class="card">
-        <h2>Welcome to Employee Management</h2>
-        <p>This project manage employees</p>
+    <h1>Employee Management Application</h1>
+    <p>This file is rendered in the browser using the Ejs template engine.</p>
     </div>
-
-    <div class="card">
-        <input type="text", id="msg" placeholder="Enter Mesage"><br><br>
-        <button type="submit">Send</button>
+    <% if(!locals?.html){ %>
+        <div class="card">
+    <form action="/home/signup/page" method="post">
+        <button type="submit">SignUp</button>
+    </form>
     </div>
+  <% } %>
 </body>
+
 </html>
