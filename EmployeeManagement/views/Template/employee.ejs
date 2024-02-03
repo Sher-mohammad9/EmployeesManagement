@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Type</th>
+            <th>Salary</th>
+            <th>Experience</th>
+            <th>Joining Date</th>
+        </tr>
+        <% locals?.employees.forEach((emp, index) => { %>
+            <tr>
+                <td><%= index + 1 %></td>
+                <td><%= emp.name %></td>
+                <td><%= emp.age %></td>
+                <td><%= emp.mobile %></td>
+                <td><%= emp.email %></td>
+                <td><%= emp.address %></td>
+                <td><%= emp.type %></td>
+                <td><%= emp.salary %></td>
+                <td><%= emp.experience %></td>
+                <td><%= emp.joiningDate %></td>
+            </tr>
+       <%}) %>;
+</table>
+</body>
+</html>
